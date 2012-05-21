@@ -156,7 +156,7 @@ namespace NHibernate.SqlCommand
 
 					buf.Append(col)
 						.Append(" as ")
-						.Append(new Alias(suffix).ToAliasString(columnAlias, dialect));
+						.Append(dialect.QuoteForAliasName(new Alias(suffix).ToAliasString(columnAlias, dialect)));
 
 					// Set the flag for the next time
 					found = true;
