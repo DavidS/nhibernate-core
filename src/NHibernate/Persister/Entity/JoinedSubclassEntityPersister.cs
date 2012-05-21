@@ -118,9 +118,6 @@ namespace NHibernate.Persister.Entity
 				discriminatorSQLString = null;
 			}
 
-			if (OptimisticLockMode > Versioning.OptimisticLock.Version)
-				throw new MappingException(string.Format("optimistic-lock=all|dirty not supported for joined-subclass mappings [{0}]", EntityName));
-
 			#endregion
 
 			#region MULTITABLES
