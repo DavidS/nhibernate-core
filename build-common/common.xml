@@ -66,7 +66,7 @@
 		effectively SP0).
 	-->
 
-	<property name="project.version" value="3.3.1.CR1" overwrite="false" />
+	<property name="project.version" value="3.3.1.DASZ2" overwrite="false" />
 
 	<!-- Compute short project version (major.minor) using a regex -->
 	<regex input="${project.version}" pattern="^(?'shortversion'\d+\.\d+)" />
@@ -84,7 +84,7 @@
 				<import namespace="System.Text.RegularExpressions" />
 			</imports>
 			<code><![CDATA[
-				public const string VersionRegex = @"^(?<major>.+)\.{1}(?<minor>.+)\.{1}(?<build>.+)\.{1}(?<qualifier>Alpha|Beta|CR|GA|SP*)(?<qualifierNumber>\d*)$";
+				public const string VersionRegex = @"^(?<major>.+)\.{1}(?<minor>.+)\.{1}(?<build>.+)\.{1}(?<qualifier>Alpha|Beta|CR|DASZ|GA|SP*)(?<qualifierNumber>\d*)$";
 			
 				public static void ScriptMain(Project project)
 				{
@@ -117,6 +117,7 @@
 					const int BaseCR = 3000;
 					const int BaseGA = 4000;
 					const int BaseSP = 4000; // SP is same as GA because GA has no number and SP's start with 1.
+					const int BaseDASZ = 5000;
 
 					Match matches = Regex.Match(version, VersionRegex);
 					if (matches.Success == false) throw new BuildException("Unrecognised version number.");
@@ -134,6 +135,7 @@
 						case "CR": revisionBase = BaseCR; break;
 						case "GA": revisionBase = BaseGA; break;
 						case "SP": revisionBase = BaseSP; break;
+						case "DASZ": revisionBase = BaseDASZ; break;
 						default: throw new BuildException("Unknown version qualifier " + qualifier);
 					}
 
