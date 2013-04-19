@@ -24,13 +24,18 @@ namespace NHibernate.Linq
 
 		public ExpressionToHqlTranslationResults ExpressionToHqlTranslationResults { get; private set; }
 
-		private readonly Expression _expression;
-		private readonly IDictionary<ConstantExpression, NamedParameter> _constantToParameterMap;
+		internal Expression _expression;
+		internal IDictionary<ConstantExpression, NamedParameter> _constantToParameterMap;
 
 		public NhLinqExpression(Expression expression, ISessionFactory sessionFactory)
 		{
 			_expression = NhPartialEvaluatingExpressionTreeVisitor.EvaluateIndependentSubtrees(expression);
-			_expression = NameUnNamedParameters.Visit(_expression);
+
+			// We want logging to be as close as possible to the original expression sent from the
+			// application. But if we log before partial evaluation, the log won't include e.g.
+			// subquery expressions if those are defined by the application in a variable referenced
+			// from the main query.
+			LinqLogging.LogExpression("Expression (partially evaluated)", _expression);
 
 			_constantToParameterMap = ExpressionParameterVisitor.Visit(_expression, sessionFactory);
 
