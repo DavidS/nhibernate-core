@@ -120,7 +120,6 @@
 
     <exec basedir="${tools.dir}" workingdir="${nuget.workingdir}" program="NuGet.exe">
       <arg value="pack" />
-	  <arg value="-symbols" />
       <arg value="${nuspec.destination.filename}" />
     </exec>
   </target>
